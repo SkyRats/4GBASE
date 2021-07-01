@@ -66,17 +66,28 @@ def buscarFotos():
   print("Qual a pasta das fotos no seu computador?")
   pastaGs = str(input())
 
-  ultimoArqv = os.popen("ls -t " + pastaGs + " | tail -1").read() #Pegar o último arquivo colocado
+  #ultimoArqv = "aaa "
 
-  os.system("sshpass -p " + senha + " ssh " + ip + "'" + "scp " + ip + ":" + pastaDrone + "/" + ultimoArqv + " " + pastaGs + "'") #Copiar esse arquivo
-  
-  #Apagar ele
+  #while ultimoArqv[:-1] != "":
+  numeroFoto = 0
+  while True:
 
-  os.system("sshpass -p " + senha + " ssh " + ip +"'" "ssh " + senha + "@" + ip +": 'rm " + pastaDrone + "/" + ultimoArqv + "'" + "'")
+    ultimoArqv = os.popen("sshpass -p " + senha + " ssh " + ip + " '" + "ls -t " + pastaDrone + " | tail -1" + "'").read() #Pegar o último arquivo colocado
 
-  pastaDrone + "/" + ultimoArqv
+    print("Copiando o " + ultimoArqv)
 
-  print(ultimoArqv)
+    os.system("sshpass -p " + senha + " scp -r " + ip + ":" + pastaDrone + "/" + ultimoArqv[:-1] + " " + pastaGs) #Copiar esse arquivo
+    
+    #Apagar ele
+    os.system("sshpass -p " + senha + " ssh " + ip +" 'rm " + pastaDrone + "/" + ultimoArqv[:-1] + "'")
+
+    numeroFoto = numeroFoto + 1
+
+    os.system("mv " + pastaGs + "/" + ultimoArqv[:-1] + " " + pastaGs + "/" + "FOTO" + str(numeroFoto) + ".png")
+
+  ##pastaDrone + "/" + ultimoArqv
+
+  ##print(ultimoArqv)
 
   #print(tmp)
 
@@ -85,7 +96,7 @@ def buscarFotos():
   
   
   
-  
+  #Puxar arquivos automaticO: sshpass -p "password" scp -r user@example.com:/some/remote/path /some/local/path
   #Automação sem senha: sshpass -p SENHA  ssh USUARIO@IP 'COMANDO'
   #Puxar Arquivos: os.system("scp USUARIO@IP: LOCAL DO ARQUIVO")
   #Remover: os.system("ssh SENHA@IP: 'rm LOCAL ARQUIVO'")
