@@ -6,8 +6,8 @@
 #Imports
 import os
 import time
-#import PySimpleGUI as sg
 
+# Colocado na interface
 def interfacePrincipal(): #Interface principal
   os.system("./src/bash/arte.sh")
   print("\t \t \t \t \t \t \t \t \t \t \t \t4G Base for Ubuntu 18.04")
@@ -18,6 +18,7 @@ def interfacePrincipal(): #Interface principal
   print("    Outro - Encerrar programa")
   return int(input())
 
+# Colocado na interface
 def configurarServer():
   while True:
     print("Escolha o que fazer agora...")
