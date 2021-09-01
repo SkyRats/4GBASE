@@ -21,23 +21,13 @@ class uavPhotosTranfer:
         print("Qual a pasta das fotos no seu computador?")
         pastaGs = str(input())
 
-        #ultimoArqv = "aaa "
-
-        #while ultimoArqv[:-1] != "":
         numeroFoto = 0
         while True:
-
             ultimoArqv = os.popen("sshpass -p " + senha + " ssh " + ip + " '" + "ls -t " + pastaDrone + " | tail -1" + "'").read() #Pegar o último arquivo colocado
-
             print("Copiando o " + ultimoArqv)
-
             os.system("sshpass -p " + senha + " scp -r " + ip + ":" + pastaDrone + "/" + ultimoArqv[:-1] + " " + pastaGs) #Copiar esse arquivo
-            
-            #Apagar ele
             os.system("sshpass -p " + senha + " ssh " + ip +" 'rm " + pastaDrone + "/" + ultimoArqv[:-1] + "'")
-
             numeroFoto = numeroFoto + 1
-
             os.system("mv " + pastaGs + "/" + ultimoArqv[:-1] + " " + pastaGs + "/" + "FOTO" + str(numeroFoto) + ".png")
 
 def main():
