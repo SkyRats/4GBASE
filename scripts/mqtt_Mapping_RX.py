@@ -1,9 +1,11 @@
 from paho.mqtt import client as mqtt_client
+from mqtt_common import skyMqtt as sm
 import PIL.Image as Image
 import base64
 import io
 
 imgNumber = 0
+pasta = '../temp/teste1'
 
 def setCredentials():
     file = open('../credentials.txt', 'r')
@@ -23,21 +25,21 @@ def connect(a):
     return client
 
 def callback1(client, usrData, msg):
-    global imgNumber
+    global imgNumber, pasta
     print('Recebido...')
     img = Image.open(io.BytesIO(msg.payload))
-    img.save('../temp/imgs/FOTO' + str(imgNumber) + '.png')
+    img.save(pasta + 'FOTO' + str(imgNumber) + '.jpeg')
     print('Imagem ' + str(imgNumber) + ' salva')
     imgNumber+=1
 
 def main():
-    a = setCredentials()
-    connect(a)
-    client = connect(a)
+    pc = sm('../credentials.txt')
+    topic = '/skyrats/mapeamento/imgs/1'
     while True:
-        client.subscribe(a[2])
-        client.message_callback_add(a[2], callback1)
-        client.loop(1)
+        pc.client.subscribe(topic)
+        pc.client.message_callback_add(topic, callback1)
+        pc.singleHeartbeat()
+        pc.client.loop(1)
 
 if __name__ == "__main__":
     main()
