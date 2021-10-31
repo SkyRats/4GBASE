@@ -1,31 +1,18 @@
 from paho.mqtt import client as mqtt_client
-from mqtt_common import SkyMqtt
+from mqtt_common import skyMqtt
 
-broker = 'localhost'
-port = 1883
-topic = '/topic/1'
-username = 'Felipe'
-password = 'skyrats'
-
-
-def connect():
-    client = mqtt_client.Client()
-    client.username_pw_set(username, password)
-    client.on_connect = connectCallback
-    client.connect(broker, port)
-    return client
-
-def fileTransfer(client):
-    file = open('/home/felipe/filename.mp3', 'rb')
+def fileTransfer(mqtt):
+    file = open('../temp/teste.wav', 'rb')
     bytes = bytearray(file.read())
-    client.publish(topic, bytes)
+    mqtt.client.publish("skyrats", bytes)
+    mqtt.client.publish("skyrats/log", "Áudio publicado")
     
 def connectCallback():
     print("Connected")
 
 def main():
-    client = connect()
-    fileTransfer(client)
+    mqtt = skyMqtt()
+    fileTransfer(mqtt)
 
 
 if __name__ == "__main__":

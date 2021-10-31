@@ -5,3 +5,4 @@ sudo apt-get install mosquitto-clients
 #PYTHON
 pip3 install paho-mqtt # P/ usar mqtt no python
 pip install pillow # Converter bitarray em png
+pip install pydub
