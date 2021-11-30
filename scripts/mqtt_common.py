@@ -1,8 +1,8 @@
 from paho.mqtt import client as mqtt_client
 
 class skyMqtt():
-    def __init__(self):
-        file = open('../credentials.txt', 'r')
+    def __init__(self, creds):
+        file = open(creds, 'r')
         self.creds = (file.read()).split()
         self.client = mqtt_client.Client()
         self.client.username_pw_set(self.creds[3], self.creds[4])
